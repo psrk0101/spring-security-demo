@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Simple JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+    <h1>Simple Login Page</h1>
+    <div>
+        <input id="id"/>
+        <input id="password" type="password" required>
+    </div>
+    <div>
+        <button type="button" onclick="onLogin()">login</button>
+    </div>
+    <script>
+        function onLogin(){
+            let id = document.getElementById("id").value.trim()
+            let pw = document.getElementById("password").value.trim()
+            console.log('id:', id)
+            console.log('pw:', pw)
+            let requestData = {
+                id : id,
+                password : pw,
+            };
+
+            $.ajax({
+                url: "/authenticate",
+                type: "post",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(requestData),
+                success: function(resultData) {
+                    console.log(resultData)
+                    // TODO : 결과로 받은 resultData로 작업 !
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // 에러 로그는 아래처럼 확인해볼 수 있다.
+                    alert("업로드 에러\ncode : " + jqXHR.status + "\nerror message : " + jqXHR.responseText);
+                }
+            });
+
+            // window.location.href = 'index.html'
+        }
+    </script>
+</body>
+</html>

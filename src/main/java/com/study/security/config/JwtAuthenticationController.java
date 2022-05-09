@@ -20,11 +20,21 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailService;
 
-    @PostMapping("/authenticate")
+    /*@PostMapping("/authenticate")
     public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         final Member member = userDetailService.authenticateByEmailAndPassword(authenticationRequest.getId(), authenticationRequest.getPassword());
         final String token = jwtTokenUtil.generateToken(member.getId());
         return ResponseEntity.ok(new JwtResponse(token));
+    }*/
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+
+        final Member member = userDetailService.authenticateByEmailAndPassword(authenticationRequest.getId(), authenticationRequest.getPassword());
+        final String token = jwtTokenUtil.generateToken(member.getId());
+
+
+        return ResponseEntity.ok().header("Authorization", token).body(new JwtResponse(token));
     }
 }
 
